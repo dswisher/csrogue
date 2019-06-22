@@ -4,13 +4,23 @@ namespace csrogue
 {
     public class Entity
     {
-        private static int nextId = 1;
+        public int X { get; set; }
+        public int Y { get; set; }
+        public char Glyph { get; set; }
+        public ConsoleColor Color { get; set; }
 
-        public string Id { get; private set; }
-
-        public Entity()
+        public Entity(int x, int y, char glyph, ConsoleColor color)
         {
-            Id = (nextId++).ToString();
+            X = x;
+            Y = y;
+            Glyph = glyph;
+            Color = color;
+        }
+
+        public void Move(int dx, int dy)
+        {
+            X += dx;
+            Y += dy;
         }
     }
 }

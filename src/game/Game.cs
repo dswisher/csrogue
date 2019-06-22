@@ -1,94 +1,81 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace csrogue
 {
     public class Game
     {
-        public Game()
+        private int height;
+        private int width;
+
+        public Game(int height, int width)
         {
+            this.height = height;
+            this.width = width;
         }
 
         public void Run()
         {
-            int height = Console.WindowHeight;
-            int width = Console.WindowWidth;
+            Renderer renderer = new Renderer();
 
-            // TODO - how to restore the console when we're done?
-            Console.Clear();
-            Console.CursorVisible = false;
+            Entity player = new Entity(width / 2, height / 2, '@', ConsoleColor.White);
+            Entity npc = new Entity(width / 2 - 5, height / 2 - 5, '@', ConsoleColor.Yellow);
 
-            try
+            List<Entity> entities = new List<Entity> { player, npc };
+
+            renderer.RenderAll(entities);
+
+            bool done = false;
+            while (!done)
             {
-                int x = width / 2;
-                int y = height / 2;
+                // Get a key
+                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
 
-                bool done = false;
-                while (!done)
+                // Clear everything
+                renderer.ClearAll(entities);
+
+                // Process the input
+                switch (keyInfo.Key)
                 {
-                    // Draw character
-                    Console.SetCursorPosition(x, y);
-                    // Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write('@');
+                    case ConsoleKey.Escape:
+                        done = true;
+                        break;
 
-                    // Get a key
-                    ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+                    case ConsoleKey.H:
+                    case ConsoleKey.LeftArrow:
+                        if (player.X > 0)
+                        {
+                            player.Move(-1, 0);
+                        }
+                        break;
 
-                    bool redraw = true;
-                    int lastX = x;
-                    int lastY = y;
-                    // TODO - add a point class to lump X and Y together!
-                    switch (keyInfo.Key)
-                    {
-                        case ConsoleKey.Escape:
-                            done = true;
-                            redraw = false;
-                            break;
+                    case ConsoleKey.J:
+                    case ConsoleKey.DownArrow:
+                        if (player.Y < height - 1)
+                        {
+                            player.Move(0, 1);
+                        }
+                        break;
 
-                        case ConsoleKey.H:
-                        case ConsoleKey.LeftArrow:
-                            if (x > 0)
-                            {
-                                x -= 1;
-                            }
-                            break;
+                    case ConsoleKey.K:
+                    case ConsoleKey.UpArrow:
+                        if (player.Y > 0)
+                        {
+                            player.Move(0, -1);
+                        }
+                        break;
 
-                        case ConsoleKey.J:
-                        case ConsoleKey.DownArrow:
-                            if (y < height - 1)
-                            {
-                                y += 1;
-                            }
-                            break;
-
-                        case ConsoleKey.K:
-                        case ConsoleKey.UpArrow:
-                            if (y > 0)
-                            {
-                                y -= 1;
-                            }
-                            break;
-
-                        case ConsoleKey.L:
-                        case ConsoleKey.RightArrow:
-                            if (x < width - 1)
-                            {
-                                x += 1;
-                            }
-                            break;
-                    }
-
-                    if (redraw)
-                    {
-                        Console.SetCursorPosition(lastX, lastY);
-                        Console.Write(' ');
-                    }
+                    case ConsoleKey.L:
+                    case ConsoleKey.RightArrow:
+                        if (player.X < width - 1)
+                        {
+                            player.Move(1, 0);
+                        }
+                        break;
                 }
-            }
-            finally
-            {
-                Console.CursorVisible = true;
-                Console.ResetColor();
-                Console.SetCursorPosition(0, height - 1);
+
+                // Render the updated entities
+                renderer.RenderAll(entities);
             }
 
         }
