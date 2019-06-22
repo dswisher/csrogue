@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace csrogue
 {
     public class Entity

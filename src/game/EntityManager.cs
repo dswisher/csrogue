@@ -19,5 +19,14 @@ namespace csrogue
 
             return entity;
         }
+
+        public IEnumerable<Entity> FindEntities()
+        {
+            foreach (Entity entity in entities)
+            {
+                // TODO - filter
+                yield return entity;
+            }
+        }
     }
 }
