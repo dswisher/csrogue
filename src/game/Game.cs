@@ -8,19 +8,21 @@ namespace csrogue
         private int height;
         private int width;
         private GameMap map;
+        private Renderer renderer;
 
-        public Game(int height, int width)
+        public Game(Renderer renderer)
         {
-            this.height = height;
-            this.width = width;
+            this.renderer = renderer;
+
+            // TODO - width and height should be independent of screen size
+            this.height = renderer.Height;
+            this.width = renderer.Width;
 
             map = new GameMap(this.width, this.height);
         }
 
         public void Run()
         {
-            Renderer renderer = new Renderer();
-
             Entity player = new Entity(width / 2, height / 2, '@', ConsoleColor.White);
             Entity npc = new Entity(width / 2 - 5, height / 2 - 5, '@', ConsoleColor.Yellow);
 
