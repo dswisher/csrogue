@@ -7,11 +7,14 @@ namespace csrogue
     {
         private int height;
         private int width;
+        private GameMap map;
 
         public Game(int height, int width)
         {
             this.height = height;
             this.width = width;
+
+            map = new GameMap(this.width, this.height);
         }
 
         public void Run()
@@ -23,7 +26,7 @@ namespace csrogue
 
             List<Entity> entities = new List<Entity> { player, npc };
 
-            renderer.RenderAll(entities);
+            renderer.RenderAll(entities, map);
 
             bool done = false;
             while (!done)
@@ -34,6 +37,9 @@ namespace csrogue
                 // Clear everything
                 renderer.ClearAll(entities);
 
+                int dx = 0;
+                int dy = 0;
+
                 // Process the input
                 switch (keyInfo.Key)
                 {
@@ -43,39 +49,36 @@ namespace csrogue
 
                     case ConsoleKey.H:
                     case ConsoleKey.LeftArrow:
-                        if (player.X > 0)
-                        {
-                            player.Move(-1, 0);
-                        }
+                        dx = -1;
                         break;
 
                     case ConsoleKey.J:
                     case ConsoleKey.DownArrow:
-                        if (player.Y < height - 1)
-                        {
-                            player.Move(0, 1);
-                        }
+                        dy = 1;
                         break;
 
                     case ConsoleKey.K:
                     case ConsoleKey.UpArrow:
-                        if (player.Y > 0)
-                        {
-                            player.Move(0, -1);
-                        }
+                        dy = -1;
                         break;
 
                     case ConsoleKey.L:
                     case ConsoleKey.RightArrow:
-                        if (player.X < width - 1)
-                        {
-                            player.Move(1, 0);
-                        }
+                        dx = 1;
                         break;
                 }
 
+                // Move?
+                if (dx != 0 || dy != 0)
+                {
+                    if (!map[player.X + dx, player.Y + dy].Blocked)
+                    {
+                        player.Move(dx, dy);
+                    }
+                }
+
                 // Render the updated entities
-                renderer.RenderAll(entities);
+                renderer.RenderAll(entities, map);
             }
 
         }

@@ -9,8 +9,26 @@ namespace csrogue
         {
         }
 
-        public void RenderAll(List<Entity> entities)
+        public void RenderAll(List<Entity> entities, GameMap map)
         {
+            for (int x = 0; x < map.Width; x++)
+            {
+                for (int y = 0; y < map.Height; y++)
+                {
+                    Console.SetCursorPosition(x, y);
+                    if (map[x, y].Blocked)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkBlue;
+                        Console.Write('#');
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.Write('.');
+                    }
+                }
+            }
+
             foreach (var entity in entities)
             {
                 DrawEntity(entity);
