@@ -15,15 +15,18 @@ namespace csrogue
             this.renderer = renderer;
 
             // TODO - width and height should be independent of screen size
-            this.height = renderer.Height;
-            this.width = renderer.Width;
+            height = renderer.Height;
+            width = renderer.Width;
 
-            map = new GameMap(this.width, this.height);
+            map = new GameMap(width, height);
         }
 
         public void Run()
         {
-            Entity player = new Entity(width / 2, height / 2, '@', ConsoleColor.White);
+            Point playerPosition = map.MakeMap();
+
+            // TODO - add override to Entity that takes a point
+            Entity player = new Entity(playerPosition.X, playerPosition.Y, '@', ConsoleColor.White);
             Entity npc = new Entity(width / 2 - 5, height / 2 - 5, '@', ConsoleColor.Yellow);
 
             List<Entity> entities = new List<Entity> { player, npc };
@@ -37,6 +40,7 @@ namespace csrogue
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
 
                 // Clear everything
+                // TODO - only clear on move
                 renderer.ClearAll(entities);
 
                 int dx = 0;

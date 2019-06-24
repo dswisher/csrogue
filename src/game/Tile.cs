@@ -6,7 +6,7 @@ namespace csrogue
         public bool Blocked { get; set; }
         public bool BlocksSight { get; set; }
 
-        public Tile() : this(false, false) {}
+        public Tile() : this(true, false) {}
 
         public Tile(bool blocked) : this(blocked, false) {}
 
