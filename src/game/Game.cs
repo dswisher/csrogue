@@ -9,6 +9,7 @@ namespace csrogue
         private int width;
         private GameMap map;
         private Renderer renderer;
+        private FieldOfView fov;
 
         public Game(Renderer renderer)
         {
@@ -19,23 +20,29 @@ namespace csrogue
             width = renderer.Width;
 
             map = new GameMap(width, height);
+            fov = new FieldOfView();
         }
 
         public void Run()
         {
             Point playerPosition = map.MakeMap();
+            Point npcPosition = new Point(playerPosition.X - 2, playerPosition.Y);
 
-            // TODO - add override to Entity that takes a point
-            Entity player = new Entity(playerPosition.X, playerPosition.Y, '@', ConsoleColor.White);
-            Entity npc = new Entity(width / 2 - 5, height / 2 - 5, '@', ConsoleColor.Yellow);
+            Entity player = new Entity(playerPosition, '@', ConsoleColor.White);
+            Entity npc = new Entity(npcPosition, '@', ConsoleColor.Yellow);
 
             List<Entity> entities = new List<Entity> { player, npc };
-
-            renderer.RenderAll(entities, map);
 
             bool done = false;
             while (!done)
             {
+                // Reset current FOV and calc new
+                // TODO - only do this after move
+                fov.Calc(map, playerPosition);
+
+                // Draw everything
+                renderer.RenderAll(entities, map);
+
                 // Get a key
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
 
@@ -82,9 +89,6 @@ namespace csrogue
                         player.Move(dx, dy);
                     }
                 }
-
-                // Render the updated entities
-                renderer.RenderAll(entities, map);
             }
 
         }

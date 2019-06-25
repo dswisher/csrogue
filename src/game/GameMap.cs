@@ -37,7 +37,8 @@ namespace csrogue
 
         public Point MakeMap()
         {
-            const int roomMaxSize = 10;
+            const int roomMaxHeight = 10;
+            const int roomMaxWidth = 15;
             const int roomMinSize = 6;
             const int maxRooms = 30;
 
@@ -50,8 +51,8 @@ namespace csrogue
             for (int r = 0; r < maxRooms; r++)
             {
                 // Random width and height
-                int w = chaos.Next(roomMinSize, roomMaxSize);
-                int h = chaos.Next(roomMinSize, roomMaxSize);
+                int w = chaos.Next(roomMinSize, roomMaxWidth);
+                int h = chaos.Next(roomMinSize, roomMaxHeight);
 
                 // Random position
                 int x = chaos.Next(0, Width - w - 1);
@@ -119,7 +120,7 @@ namespace csrogue
 
         private void CreateHorizontalTunnel(int x1, int x2, int y)
         {
-            for (int x = Math.Min(x1, x2); x < Math.Max(x1, x2); x++)
+            for (int x = Math.Min(x1, x2); x < Math.Max(x1, x2) + 1; x++)
             {
                 tiles[x, y].Blocked = false;
                 tiles[x, y].BlocksSight = false;
@@ -128,7 +129,7 @@ namespace csrogue
 
         private void CreateVerticalTunnel(int y1, int y2, int x)
         {
-            for (int y = Math.Min(y1, y2); y < Math.Max(y1, y2); y++)
+            for (int y = Math.Min(y1, y2); y < Math.Max(y1, y2) + 1; y++)
             {
                 tiles[x, y].Blocked = false;
                 tiles[x, y].BlocksSight = false;

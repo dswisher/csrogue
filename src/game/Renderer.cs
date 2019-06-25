@@ -49,20 +49,39 @@ namespace csrogue
             {
                 for (int y = 0; y < map.Height; y++)
                 {
-                    if (map[x, y].Blocked)
+                    bool isWall = map[x, y].Blocked;
+
+                    if (map[x, y].Visible)
                     {
-                        PutChar(x, y, '#', ConsoleColor.White);
+                        if (isWall)
+                        {
+                            PutChar(x, y, '#', ConsoleColor.White);
+                        }
+                        else
+                        {
+                            PutChar(x, y, '.', ConsoleColor.White);
+                        }
                     }
-                    else
+                    else if (map[x, y].Explored)
                     {
-                        PutChar(x, y, '.', ConsoleColor.DarkBlue);
+                        if (isWall)
+                        {
+                            PutChar(x, y, '#', ConsoleColor.DarkGray);
+                        }
+                        else
+                        {
+                            PutChar(x, y, '.', ConsoleColor.DarkGray);
+                        }
                     }
                 }
             }
 
             foreach (var entity in entities)
             {
-                DrawEntity(entity);
+                if (map[entity.X, entity.Y].Visible)
+                {
+                    DrawEntity(entity);
+                }
             }
 
             Blit();

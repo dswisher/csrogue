@@ -4,23 +4,23 @@ namespace csrogue
 {
     public class Entity
     {
-        public int X { get; set; }
-        public int Y { get; set; }
+        public int X { get { return Position.X; } }
+        public int Y { get { return Position.Y; } }
         public char Glyph { get; set; }
         public ConsoleColor Color { get; set; }
+        public Point Position { get; set; }
 
-        public Entity(int x, int y, char glyph, ConsoleColor color)
+        public Entity(Point pos, char glyph, ConsoleColor color)
         {
-            X = x;
-            Y = y;
+            Position = pos;
             Glyph = glyph;
             Color = color;
         }
 
         public void Move(int dx, int dy)
         {
-            X += dx;
-            Y += dy;
+            Position.X += dx;
+            Position.Y += dy;
         }
     }
 }
