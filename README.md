@@ -6,6 +6,7 @@ Roguelike using dotnet core
 
 * Reddit RoguelikeDev Does the Complete Roguelike Tutorial 2019:
   * [Week 1](https://www.reddit.com/r/roguelikedev/comments/c1xj5b/roguelikedev_does_the_complete_roguelike_tutorial/)
+  * [Week 2](https://www.reddit.com/r/roguelikedev/comments/c52ik4/roguelikedev_does_the_complete_roguelike_tutorial/)
 * TCOD Tutorial on which the weeks are based::
   * [Part 0](http://rogueliketutorials.com/tutorials/tcod/part-0/) - Setting Up
   * [Part 1](http://rogueliketutorials.com/tutorials/tcod/part-1/) - Drawing the ‘@’ symbol and moving it around
@@ -15,6 +16,7 @@ Roguelike using dotnet core
   * [Part 5](http://rogueliketutorials.com/tutorials/tcod/part-5/) - Placing Enemies and kicking them (harmlessly)
 * [System.Console](https://docs.microsoft.com/en-us/dotnet/api/system.console?view=netcore-2.2)
 * [RogueBasin](http://www.roguebasin.com/index.php?title=C_Sharp) C# page
+* FOV: [RogueBasin](http://www.roguebasin.com/index.php?title=Category:FOV)
 * Libs: [CsConsoleFormat](https://github.com/Athari/CsConsoleFormat) - [Colorful.Console](https://github.com/tomakita/Colorful.Console)
 * [XSVim](https://github.com/nosami/XSVim/)
 

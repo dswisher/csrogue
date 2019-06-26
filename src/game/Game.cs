@@ -37,8 +37,10 @@ namespace csrogue
             while (!done)
             {
                 // Reset current FOV and calc new
+                const int radius = 5;
+
                 // TODO - only do this after move
-                fov.Calc(map, playerPosition);
+                fov.Calc(map, playerPosition, radius);
 
                 // Draw everything
                 renderer.RenderAll(entities, map);
