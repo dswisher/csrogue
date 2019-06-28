@@ -6,6 +6,7 @@ namespace csrogue
     public class Renderer
     {
         private ConsoleColor defaultBackground;
+        private ConsoleColor defaultForeground;
         private readonly Cell[,] cells;
 
         public int Width { get; private set; }
@@ -14,6 +15,7 @@ namespace csrogue
         public Renderer()
         {
             defaultBackground = Console.BackgroundColor;
+            defaultForeground = Console.ForegroundColor;
 
             Width = Console.WindowWidth;
             Height = Console.WindowHeight;
@@ -73,6 +75,10 @@ namespace csrogue
                             PutChar(x, y, '.', ConsoleColor.DarkGray);
                         }
                     }
+                    else
+                    {
+                        PutChar(x, y, ' ');
+                    }
                 }
             }
 
@@ -103,6 +109,11 @@ namespace csrogue
         public void ClearEntity(Entity entity)
         {
             PutChar(entity.X, entity.Y, ' ', defaultBackground);
+        }
+
+        private void PutChar(int x, int y, char c)
+        {
+            PutChar(x, y, c, defaultForeground, defaultBackground);
         }
 
         private void PutChar(int x, int y, char c, ConsoleColor foreground)

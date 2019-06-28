@@ -40,7 +40,7 @@ namespace csrogue
             const int roomMaxHeight = 10;
             const int roomMaxWidth = 15;
             const int roomMinSize = 6;
-            const int maxRooms = 30;
+            const int maxRooms = 40;
 
             Logger.WriteLine("MakeMap, width={0}, height={1}", Width, Height);
 

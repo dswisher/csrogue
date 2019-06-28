@@ -17,5 +17,13 @@ namespace csrogue
             Blocked = blocked;
             BlocksSight = blocksSight;
         }
+
+        public void Reset()
+        {
+            Blocked = true;
+            BlocksSight = true;
+            Visible = false;
+            Explored = false;
+        }
     }
 }

@@ -38,7 +38,7 @@ namespace csrogue
             while (!done)
             {
                 // Reset current FOV and calc new
-                const int radius = 5;
+                const int radius = 6;
 
                 // TODO - only do this after move
                 fov.Calc(map, playerPosition, radius);
@@ -97,8 +97,9 @@ namespace csrogue
 
                     case ConsoleKey.N:
                         // TODO - make this a "command", invoked by :newmap or some such
-                        // TODO - this isn't working! Need to reset all the tiles!
-                        // playerPosition = map.MakeMap();
+                        ResetAllTiles();
+                        playerPosition = map.MakeMap();
+                        player.Position = playerPosition;
                         redraw = true;
                         break;
                 }
@@ -121,6 +122,17 @@ namespace csrogue
                 for (int y = 0; y < map.Height; y++)
                 {
                     map[x, y].Explored = true;
+                }
+            }
+        }
+
+        private void ResetAllTiles()
+        {
+            for (int x = 0; x < map.Width; x++)
+            {
+                for (int y = 0; y < map.Height; y++)
+                {
+                    map[x, y].Reset();
                 }
             }
         }
