@@ -43,7 +43,7 @@ namespace csrogue
             Console.SetCursorPosition(0, Height - 1);
         }
 
-        public void RenderAll(List<Entity> entities, GameMap map)
+        public void RenderAll(List<Entity> entities, GameMap map, bool redraw)
         {
             for (int x = 0; x < map.Width; x++)
             {
@@ -84,7 +84,7 @@ namespace csrogue
                 }
             }
 
-            Blit();
+            Blit(redraw);
         }
 
         public void ClearAll(List<Entity> entities)
@@ -120,14 +120,14 @@ namespace csrogue
             cell.Dirty = true;
         }
 
-        private void Blit()
+        private void Blit(bool redraw)
         {
             for (int x = 0; x < Width; x++)
             {
                 for (int y = 0; y < Height; y++)
                 {
                     Cell cell = cells[x, y];
-                    if (cell.Dirty)
+                    if (cell.Dirty || redraw)
                     {
                         Console.ForegroundColor = cell.Foreground;
                         Console.BackgroundColor = cell.Background;

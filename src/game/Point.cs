@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace csrogue
 {
     public class Point
@@ -10,6 +12,11 @@ namespace csrogue
         {
             X = x;
             Y = y;
+        }
+
+        public double DistanceTo2(Point other)
+        {
+            return Math.Pow(other.X - X, 2) + Math.Pow(other.Y - Y, 2);
         }
 
         public override string ToString()

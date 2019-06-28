@@ -83,7 +83,7 @@ namespace csrogue
                     }
                     else
                     {
-                        Point prev = rooms[rooms.Count - 1].Center();
+                        Point prev = FindClosestRoom(rooms, center);
 
                         if (chaos.NextDouble() > 0.5)
                         {
@@ -106,7 +106,27 @@ namespace csrogue
             return playerPosition;
         }
 
-        public void CreateRoom(Rect rect)
+        private Point FindClosestRoom(List<Rect> rooms, Point p)
+        {
+            Point closest = null;
+            double closestDist = 1e6;   // arbitrary large number
+
+            foreach (Rect r in rooms)
+            {
+                Point c = r.Center();
+                double dist2 = c.DistanceTo2(p);
+
+                if (dist2 < closestDist)
+                {
+                    closest = c;
+                    closestDist = dist2;
+                }
+            }
+
+            return closest;
+        }
+
+        private void CreateRoom(Rect rect)
         {
             for (int x = rect.X1 + 1; x < rect.X2; x++)
             {

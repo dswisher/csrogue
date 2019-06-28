@@ -34,6 +34,7 @@ namespace csrogue
             List<Entity> entities = new List<Entity> { player, npc };
 
             bool done = false;
+            bool redraw = false;
             while (!done)
             {
                 // Reset current FOV and calc new
@@ -43,7 +44,9 @@ namespace csrogue
                 fov.Calc(map, playerPosition, radius);
 
                 // Draw everything
-                renderer.RenderAll(entities, map);
+                renderer.RenderAll(entities, map, redraw);
+
+                redraw = false;
 
                 // Get a key
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
@@ -81,6 +84,23 @@ namespace csrogue
                     case ConsoleKey.RightArrow:
                         dx = 1;
                         break;
+
+                    case ConsoleKey.Spacebar:
+                        // TODO - make this a "command", invoked by :explore or some such
+                        ExploreAll();
+                        break;
+
+                    case ConsoleKey.R:
+                        // TODO - make this a "command", invoked by :redraw or some such
+                        redraw = true;
+                        break;
+
+                    case ConsoleKey.N:
+                        // TODO - make this a "command", invoked by :newmap or some such
+                        // TODO - this isn't working! Need to reset all the tiles!
+                        // playerPosition = map.MakeMap();
+                        redraw = true;
+                        break;
                 }
 
                 // Move?
@@ -92,7 +112,17 @@ namespace csrogue
                     }
                 }
             }
+        }
 
+        private void ExploreAll()
+        {
+            for (int x = 0; x < map.Width; x++)
+            {
+                for (int y = 0; y < map.Height; y++)
+                {
+                    map[x, y].Explored = true;
+                }
+            }
         }
     }
 }
