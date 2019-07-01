@@ -9,12 +9,16 @@ namespace csrogue
         public char Glyph { get; set; }
         public ConsoleColor Color { get; set; }
         public Point Position { get; set; }
+        public bool Blocks { get; set; }
+        public string Name { get; set; }
 
-        public Entity(Point pos, char glyph, ConsoleColor color)
+        public Entity(Point pos, char glyph, ConsoleColor color, string name, bool blocks)
         {
             Position = pos;
             Glyph = glyph;
             Color = color;
+            Name = name;
+            Blocks = blocks;
         }
 
         public void Move(int dx, int dy)

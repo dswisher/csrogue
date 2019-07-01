@@ -6,6 +6,14 @@ namespace csrogue
 {
     public class GameMap
     {
+        private const int RoomMaxHeight = 10;
+        private const int RoomMaxWidth = 15;
+        private const int RoomMinSize = 6;
+        private const int MaxRooms = 40;
+        private const int MaxMonstersPerRoom = 3;
+
+        private Random chaos = new Random();    // TODO - allow a seed to be specified
+
         private Tile[,] tiles;
 
         public int Width { get; private set; }
@@ -35,24 +43,17 @@ namespace csrogue
             }
         }
 
-        public Point MakeMap()
+        public void MakeMap(EntityManager entityManager)
         {
-            const int roomMaxHeight = 10;
-            const int roomMaxWidth = 15;
-            const int roomMinSize = 6;
-            const int maxRooms = 40;
-
             Logger.WriteLine("MakeMap, width={0}, height={1}", Width, Height);
 
-            Random chaos = new Random();
             List<Rect> rooms = new List<Rect>();
-            Point playerPosition = null;
 
-            for (int r = 0; r < maxRooms; r++)
+            for (int r = 0; r < MaxRooms; r++)
             {
                 // Random width and height
-                int w = chaos.Next(roomMinSize, roomMaxWidth);
-                int h = chaos.Next(roomMinSize, roomMaxHeight);
+                int w = chaos.Next(RoomMinSize, RoomMaxWidth);
+                int h = chaos.Next(RoomMinSize, RoomMaxHeight);
 
                 // Random position
                 int x = chaos.Next(0, Width - w - 1);
@@ -79,7 +80,7 @@ namespace csrogue
 
                     if (rooms.Count == 0)
                     {
-                        playerPosition = center;
+                        entityManager.Player.Position = center;
                     }
                     else
                     {
@@ -99,11 +100,40 @@ namespace csrogue
                         }
                     }
 
+                    PlaceEntities(entityManager, newRoom);
+
                     rooms.Add(newRoom);
                 }
             }
+        }
 
-            return playerPosition;
+        private void PlaceEntities(EntityManager entityManager, Rect room)
+        {
+            // Place a random number of monsters
+            int numberOfMonsters = chaos.Next(0, MaxMonstersPerRoom);
+
+            for (int i = 0; i < numberOfMonsters; i++)
+            {
+                // Choose a random location in the room
+                Point pos = new Point(chaos.Next(room.X1 + 1, room.X2 - 1), chaos.Next(room.Y1 + 1, room.Y2 - 1));
+
+                if (!entityManager.IsOccupied(pos))
+                {
+                    Entity monster;
+                    if (chaos.Next(0, 100) < 80)
+                    {
+                        // Add Orc
+                        monster = new Entity(pos, 'o', ConsoleColor.Red, "Orc", true);
+                    }
+                    else
+                    {
+                        // Add troll
+                        monster = new Entity(pos, 'T', ConsoleColor.Red, "Troll", true);
+                    }
+
+                    entityManager.AddNonPlayer(monster);
+                }
+            }
         }
 
         private Point FindClosestRoom(List<Rect> rooms, Point p)

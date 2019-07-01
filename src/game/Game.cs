@@ -25,13 +25,11 @@ namespace csrogue
 
         public void Run()
         {
-            Point playerPosition = map.MakeMap();
-            Point npcPosition = new Point(playerPosition.X - 2, playerPosition.Y);
+            Entity player = new Entity(Point.Zero, '@', ConsoleColor.White, "Player", true);
+            EntityManager entityManager = new EntityManager();
+            entityManager.AddPlayer(player);
 
-            Entity player = new Entity(playerPosition, '@', ConsoleColor.White);
-            Entity npc = new Entity(npcPosition, '@', ConsoleColor.Yellow);
-
-            List<Entity> entities = new List<Entity> { player, npc };
+            map.MakeMap(entityManager);
 
             bool done = false;
             bool redraw = false;
@@ -41,10 +39,10 @@ namespace csrogue
                 const int radius = 6;
 
                 // TODO - only do this after move
-                fov.Calc(map, playerPosition, radius);
+                fov.Calc(map, player.Position, radius);
 
                 // Draw everything
-                renderer.RenderAll(entities, map, redraw);
+                renderer.RenderAll(entityManager, map, redraw);
 
                 redraw = false;
 
@@ -53,7 +51,7 @@ namespace csrogue
 
                 // Clear everything
                 // TODO - only clear on move
-                renderer.ClearAll(entities);
+                renderer.ClearAll(entityManager.Entities);
 
                 int dx = 0;
                 int dy = 0;
@@ -98,8 +96,8 @@ namespace csrogue
                     case ConsoleKey.N:
                         // TODO - make this a "command", invoked by :newmap or some such
                         ResetAllTiles();
-                        playerPosition = map.MakeMap();
-                        player.Position = playerPosition;
+                        entityManager.Reset();
+                        map.MakeMap(entityManager);
                         redraw = true;
                         break;
                 }
@@ -107,9 +105,23 @@ namespace csrogue
                 // Move?
                 if (dx != 0 || dy != 0)
                 {
+                    // TODO - better way of constructing point + delta
+                    Point newPos = new Point(player.X + dx, player.Y + dy);
+
+                    // TODO - add point-based map accessor
                     if (!map[player.X + dx, player.Y + dy].Blocked)
                     {
-                        player.Move(dx, dy);
+                        Entity mob = entityManager.GetBlockingEntitiesAtLocation(newPos);
+
+                        if (mob != null)
+                        {
+                            // TODO - need a better way to show output to the player!
+                            Console.Write("You kick the {0} in the shins.", mob.Name);
+                        }
+                        else
+                        {
+                            player.Move(dx, dy);
+                        }
                     }
                 }
             }

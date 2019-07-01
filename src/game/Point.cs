@@ -8,6 +8,11 @@ namespace csrogue
         public int X { get; set; }
         public int Y { get; set; }
 
+        public static Point Zero
+        {
+            get { return new Point(0, 0); }
+        }
+
         public Point(int x, int y)
         {
             X = x;

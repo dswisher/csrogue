@@ -45,7 +45,7 @@ namespace csrogue
             Console.SetCursorPosition(0, Height - 1);
         }
 
-        public void RenderAll(List<Entity> entities, GameMap map, bool redraw)
+        public void RenderAll(EntityManager entityManager, GameMap map, bool redraw)
         {
             for (int x = 0; x < map.Width; x++)
             {
@@ -82,7 +82,7 @@ namespace csrogue
                 }
             }
 
-            foreach (var entity in entities)
+            foreach (var entity in entityManager.Entities)
             {
                 if (map[entity.X, entity.Y].Visible)
                 {
@@ -93,7 +93,7 @@ namespace csrogue
             Blit(redraw);
         }
 
-        public void ClearAll(List<Entity> entities)
+        public void ClearAll(IEnumerable<Entity> entities)
         {
             foreach (var entity in entities)
             {
