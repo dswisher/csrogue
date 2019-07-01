@@ -14,6 +14,8 @@ Roguelike using dotnet core
   * [Part 3](http://rogueliketutorials.com/tutorials/tcod/part-3/) - Generating a dungeon
   * [Part 4](http://rogueliketutorials.com/tutorials/tcod/part-4/) - Field of View
   * [Part 5](http://rogueliketutorials.com/tutorials/tcod/part-5/) - Placing Enemies and kicking them (harmlessly)
+  * [Part 6](http://rogueliketutorials.com/tutorials/tcod/part-6/) - Doing (and taking) some damage
+  * [Part 7](http://rogueliketutorials.com/tutorials/tcod/part-7/) - Creating the Interface
 * [System.Console](https://docs.microsoft.com/en-us/dotnet/api/system.console?view=netcore-2.2)
 * [RogueBasin](http://www.roguebasin.com/index.php?title=C_Sharp) C# page
 * FOV: [RogueBasin](http://www.roguebasin.com/index.php?title=Category:FOV)
