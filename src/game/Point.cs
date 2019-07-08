@@ -24,6 +24,11 @@ namespace csrogue
             return Math.Pow(other.X - X, 2) + Math.Pow(other.Y - Y, 2);
         }
 
+        public double DistanceTo(Point other)
+        {
+            return Math.Sqrt(DistanceTo2(other));
+        }
+
         public override string ToString()
         {
             return string.Format("({0},{1})", X, Y);

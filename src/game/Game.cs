@@ -34,6 +34,8 @@ namespace csrogue
             fov = new FieldOfView();
 
             player = new Entity(Point.Zero, '@', ConsoleColor.White, "Player", true);
+            player.Fighter = new Fighter(30, 2, 5);
+
             entityManager = new EntityManager();
             entityManager.AddPlayer(player);
 
@@ -59,7 +61,10 @@ namespace csrogue
                         {
                             if (entity != entityManager.Player)
                             {
-                                // TODO - let the mob take its turn
+                                if (entity.Ai != null)
+                                {
+                                    entity.Ai.TakeTurn(entityManager.Player, map, entityManager);
+                                }
                             }
                         }
                         gameState = GameState.PlayerTurn;
@@ -151,7 +156,7 @@ namespace csrogue
                     if (mob != null)
                     {
                         // TODO - need a better way to show output to the player!
-                        Console.Write("You kick the {0} in the shins.", mob.Name);
+                        Logger.WriteLine("You kick the {0} in the shins.", mob.Name);
                     }
                     else
                     {

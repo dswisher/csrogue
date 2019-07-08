@@ -33,6 +33,7 @@ namespace csrogue
             string message = string.Format(format, args);
 
             log.WriteLine(message);
+            log.Flush();
         }
 
         private class LogDisposer : IDisposable

@@ -124,11 +124,15 @@ namespace csrogue
                     {
                         // Add Orc
                         monster = new Entity(pos, 'o', ConsoleColor.Red, "Orc", true);
+                        monster.Fighter = new Fighter(10, 0, 3);
+                        monster.Ai = new BasicMonster();
                     }
                     else
                     {
                         // Add troll
                         monster = new Entity(pos, 'T', ConsoleColor.Red, "Troll", true);
+                        monster.Fighter = new Fighter(16, 1, 4);
+                        monster.Ai = new BasicMonster();
                     }
 
                     entityManager.AddNonPlayer(monster);
