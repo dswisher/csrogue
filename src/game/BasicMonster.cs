@@ -5,10 +5,6 @@ namespace csrogue
     {
         public Entity Owner { get; set; }
 
-        public BasicMonster()
-        {
-        }
-
         public void TakeTurn(Entity target, GameMap map, EntityManager entityManager    )
         {
             Entity monster = Owner;
@@ -17,7 +13,8 @@ namespace csrogue
             {
                 if (monster.Position.DistanceTo(target.Position) >= 2)
                 {
-                    monster.MoveTowards(target, map, entityManager);
+                    // monster.MoveTowards(target, map, entityManager);
+                    monster.MoveAStar(target, map, entityManager);
                 }
                 else if (monster.Fighter.Hp > 0)
                 {

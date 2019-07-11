@@ -123,6 +123,26 @@ namespace csrogue
                     dx = 1;
                     break;
 
+                case ConsoleKey.B:
+                    dx = -1;
+                    dy = 1;
+                    break;
+
+                case ConsoleKey.N:
+                    dx = 1;
+                    dy = 1;
+                    break;
+
+                case ConsoleKey.U:
+                    dx = 1;
+                    dy = -1;
+                    break;
+
+                case ConsoleKey.Y:
+                    dx = -1;
+                    dy = -1;
+                    break;
+
                 case ConsoleKey.Spacebar:
                     // TODO - make this a "command", invoked by :explore or some such
                     ExploreAll();
@@ -133,7 +153,7 @@ namespace csrogue
                     redraw = true;
                     break;
 
-                case ConsoleKey.N:
+                case ConsoleKey.E:
                     // TODO - make this a "command", invoked by :newmap or some such
                     ResetAllTiles();
                     entityManager.Reset();

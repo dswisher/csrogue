@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace csrogue
 {
@@ -30,6 +31,11 @@ namespace csrogue
             Position.Y += dy;
         }
 
+        public void MoveTo(Point p)
+        {
+            Position = p;
+        }
+
         public void MoveTowards(Entity target, GameMap map, EntityManager entityManager)
         {
             double distance = Position.DistanceTo(target.Position);
@@ -42,6 +48,52 @@ namespace csrogue
             if (!(map[dest.X, dest.Y].Blocked || entityManager.IsOccupied(dest)))
             {
                 Move(dx, dy);
+            }
+        }
+
+        public void MoveAStar(Entity target, GameMap map, EntityManager entityManager)
+        {
+            // Get the distance to the point
+            Func<Point, Point, double> distance = (a, b) => a.DistanceTo(b);
+
+            // Estimate distance to target
+            Func<Point, double> estimate = a => a.DistanceTo(target.Position);
+
+            // Get the path
+            Path<Point> path = AStar.FindPath(Position, target.Position, distance, estimate, x => GetNeighbors(map, entityManager, target.Position, x));
+
+            if (path != null)
+            {
+                Logger.WriteLine("Found a path! Moving from {0} to {1}!", Position, path.FirstStep);
+                MoveTo(path.FirstStep);
+            }
+        }
+
+        private IEnumerable<Point> GetNeighbors(GameMap map, EntityManager entityManager, Point target, Point point)
+        {
+            for (int dx = -1; dx <= 1; dx++)
+            {
+                for (int dy = -1; dy <= 1; dy++)
+                {
+                    if (dx == 0 && dy == 0)
+                    {
+                        continue;
+                    }
+
+                    Point delta = point.Delta(dx, dy);
+
+                    bool occupied = false;
+                    if (entityManager.IsOccupied(delta) && (delta.X != target.X || delta.Y != target.Y))
+                    {
+                        occupied = true;
+                    }
+
+                    // TODO - add point-based accessor to map
+                    if (!map[delta.X, delta.Y].Blocked && !occupied)
+                    {
+                        yield return delta;
+                    }
+                }
             }
         }
 
